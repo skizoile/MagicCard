@@ -19,6 +19,7 @@ public class CardManager : MonoBehaviour {
     }
 
     protected int nbCard = 21;
+    public UIManager uiManager;
     public Canvas canvasParent;
     public Card cardPrefab;
     public Color redColor;
@@ -39,10 +40,10 @@ public class CardManager : MonoBehaviour {
             Sprite[] lArray = lColor == redColor ? symbolsRed : symbolsBlack;
             Sprite lSprite = lArray[Random.Range(0, lArray.Length)];
 
-            int lInt = Random.Range(1, 10);
-
             if (!listCard[lColor].ContainsKey(lSprite))
                 listCard[lColor].Add(lSprite, new List<int>());
+
+            int lInt = SelectNumber(lColor, lSprite);
 
             listCard[lColor][lSprite].Add(lInt);
 
@@ -52,6 +53,20 @@ public class CardManager : MonoBehaviour {
             lCard.icon.sprite = lSprite;
             lCard.text.text = lInt.ToString();
         }
+    }
+
+    protected int SelectNumber(Color pColor, Sprite pSprite)
+    {
+        int[] lList = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        List<int> lDispo = new List<int>();
+
+        for (int i = 0; i < lList.Length; i++)
+        {
+            if (!listCard[pColor][pSprite].Contains(i))
+                lDispo.Add(i);
+        }
+
+        return lDispo[Random.Range(0, lDispo.Count)];
     }
 
     private void OnDestroy()
