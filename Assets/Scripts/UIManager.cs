@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour {
 
         _instance = this;
     }
+    public CardManager cardManager;
+
     [Header("SELECTION CARD")]
     public GameObject selectionCard;
     public Transform containerChoice;
@@ -45,7 +47,13 @@ public class UIManager : MonoBehaviour {
 
     protected void Start()
     {
+        DrawCard();
         ActiveSelectionCard();
+    }
+
+    protected void DrawCard()
+    {
+        cardManager.RecupCard(containerChoice);
     }
 
     protected void ActiveSelectionCard()
@@ -76,6 +84,9 @@ public class UIManager : MonoBehaviour {
     {
         DisableSelectionCard();
         nbChoice = 0;
+
+        cardManager.DispatchCard(containerLeft, containerMiddle, containerRight);
+
         choicePaquet.SetActive(true);
         choiceLeft.onClick.AddListener(ChoiceLeft_OnClick);
         choiceMiddle.onClick.AddListener(ChoiceMiddle_OnClick);
@@ -86,30 +97,35 @@ public class UIManager : MonoBehaviour {
     {
         if (nbChoice == 2)
         {
-            ActiveResult();
+            cardManager.SelectLeftPaquet(containerLeft, containerMiddle, containerRight, ActiveResult);
             return;
         }
         nbChoice += 1;
+        cardManager.SelectLeftPaquet(containerLeft, containerMiddle, containerRight);
     }
 
     private void ChoiceMiddle_OnClick()
     {
         if (nbChoice == 2)
         {
-            ActiveResult();
+            cardManager.SelectMiddlePaquet(containerLeft, containerMiddle, containerRight, ActiveResult);
+
             return;
         }
         nbChoice += 1;
+        cardManager.SelectMiddlePaquet(containerLeft, containerMiddle, containerRight);
+
     }
 
     private void ChoiceRight_OnClick()
     {
         if (nbChoice == 2)
         {
-            ActiveResult();
+            cardManager.SelectRightPaquet(containerLeft, containerMiddle, containerRight);
             return;
         }
         nbChoice += 1;
+        cardManager.SelectRightPaquet(containerLeft, containerMiddle, containerRight);
 
     }
 
@@ -130,6 +146,11 @@ public class UIManager : MonoBehaviour {
     protected void ActiveResult()
     {
         DisableChoicePaquet();
+        Card lCard = cardManager.TakeGoodCard();
+        visualCard.color = lCard.color;
+        visualCard.text.text = lCard.text.text;
+        visualCard.icon.sprite = lCard.icon.sprite;
+
         result.SetActive(true);
         restartButton.onClick.AddListener(Restart_OnClick);
     }
