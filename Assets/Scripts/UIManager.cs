@@ -52,7 +52,7 @@ public class UIManager : MonoBehaviour {
 
     protected void DrawCard()
     {
-        cardManager.RecupCard(containerChoice);
+        cardManager.RecupCard(containerChoice, ActiveBtnStart);
     }
 
     protected void ActiveSelectionCard()
@@ -61,7 +61,13 @@ public class UIManager : MonoBehaviour {
         DisableResult();
         DisableChoicePaquet();
         selectionCard.SetActive(true);
+        btnStart.interactable = false;
         btnStart.onClick.AddListener(BtnStart_OnClick);
+    }
+
+    protected void ActiveBtnStart()
+    {
+        btnStart.interactable = true;
     }
 
     private void BtnStart_OnClick()
@@ -85,35 +91,55 @@ public class UIManager : MonoBehaviour {
         DisableSelectionCard();
         nbChoice = 0;
 
-        cardManager.DispatchCard(containerLeft, containerMiddle, containerRight);
+        cardManager.DispatchCard(containerLeft, containerMiddle, containerRight, ActiveBtnChoice);
 
         choicePaquet.SetActive(true);
+
+        DisableBtnChoice();
+
         choiceLeft.onClick.AddListener(ChoiceLeft_OnClick);
         choiceMiddle.onClick.AddListener(ChoiceMiddle_OnClick);
         choiceRight.onClick.AddListener(ChoiceRight_OnClick);
+    }
+
+
+    protected void DisableBtnChoice()
+    {
+        choiceLeft.interactable = false;
+        choiceMiddle.interactable = false;
+        choiceRight.interactable = false;
+    }
+
+    protected void ActiveBtnChoice()
+    {
+        choiceLeft.interactable = true;
+        choiceMiddle.interactable = true;
+        choiceRight.interactable = true;
     }
 
     private void ChoiceLeft_OnClick()
     {
         if (nbChoice == 2)
         {
-            cardManager.SelectLeftPaquet(containerLeft, containerMiddle, containerRight, ActiveResult);
+            cardManager.SelectLeftPaquet(containerLeft, containerMiddle, containerRight, ActiveResult, true);
             return;
         }
         nbChoice += 1;
-        cardManager.SelectLeftPaquet(containerLeft, containerMiddle, containerRight);
+        DisableBtnChoice();
+        cardManager.SelectLeftPaquet(containerLeft, containerMiddle, containerRight, ActiveBtnChoice);
     }
 
     private void ChoiceMiddle_OnClick()
     {
         if (nbChoice == 2)
         {
-            cardManager.SelectMiddlePaquet(containerLeft, containerMiddle, containerRight, ActiveResult);
+            cardManager.SelectMiddlePaquet(containerLeft, containerMiddle, containerRight, ActiveResult, true);
 
             return;
         }
         nbChoice += 1;
-        cardManager.SelectMiddlePaquet(containerLeft, containerMiddle, containerRight);
+        DisableBtnChoice();
+        cardManager.SelectMiddlePaquet(containerLeft, containerMiddle, containerRight, ActiveBtnChoice);
 
     }
 
@@ -121,11 +147,12 @@ public class UIManager : MonoBehaviour {
     {
         if (nbChoice == 2)
         {
-            cardManager.SelectRightPaquet(containerLeft, containerMiddle, containerRight);
+            cardManager.SelectRightPaquet(containerLeft, containerMiddle, containerRight, ActiveResult, true);
             return;
         }
         nbChoice += 1;
-        cardManager.SelectRightPaquet(containerLeft, containerMiddle, containerRight);
+        DisableBtnChoice();
+        cardManager.SelectRightPaquet(containerLeft, containerMiddle, containerRight, ActiveBtnChoice);
 
     }
 

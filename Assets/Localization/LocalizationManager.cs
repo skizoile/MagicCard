@@ -48,7 +48,7 @@ namespace Localization {
 			else
 				Debug.LogError("[ERROR] : Aucune extension pour les fichiers de traductions");
 
-			LoadLocalizedText("localizedText_en" + extension);
+			LoadLocalizedText("localizedText_en");
         }
 
 		protected void OnValidate()
@@ -62,7 +62,7 @@ namespace Localization {
 		public void LoadLocalizedText(string fileName)
 		{
 			localizedText = new Dictionary<string, string>();
-			filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+			filePath = Path.Combine(Application.streamingAssetsPath, fileName + extension);
 
 			if (File.Exists(filePath) || Application.platform == RuntimePlatform.Android)
 			{

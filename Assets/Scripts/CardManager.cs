@@ -44,13 +44,13 @@ public class CardManager : MonoBehaviour {
         listRight = new List<Card>();
     }
 
-    public void RecupCard(Transform pContainer)
+    public void RecupCard(Transform pContainer, Action pCallBack = null)
     {
         ResetGame();
-        StartCoroutine(C_RecupCard(pContainer));
+        StartCoroutine(C_RecupCard(pContainer, pCallBack));
     }
 
-    protected IEnumerator C_RecupCard(Transform pContainer)
+    protected IEnumerator C_RecupCard(Transform pContainer, Action pCallBack = null)
     {
         for (int i = 0; i < nbCard; i++)
         {
@@ -78,6 +78,9 @@ public class CardManager : MonoBehaviour {
             list.Add(lCard);
             yield return new WaitForSeconds(timeAppear);
         }
+
+        if (pCallBack != null)
+            pCallBack();
     }
 
     protected int SelectNumber(Color pColor, Sprite pSprite)
@@ -95,12 +98,12 @@ public class CardManager : MonoBehaviour {
     }
 
 
-    public void DispatchCard(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight)
+    public void DispatchCard(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallBack = null)
     {
-        StartCoroutine(C_DispatchCard(pContainerLeft, pContainerMiddle, pContainerRight));
+        StartCoroutine(C_DispatchCard(pContainerLeft, pContainerMiddle, pContainerRight, pCallBack));
     }
 
-    protected IEnumerator C_DispatchCard(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight)
+    protected IEnumerator C_DispatchCard(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback)
     {
         int index = 1;
         listLeft.Clear();
@@ -132,31 +135,34 @@ public class CardManager : MonoBehaviour {
             index++;
             yield return new WaitForSeconds(timeAppear);
         }
+
+        if (pCallback != null)
+            pCallback();
     }
 
 
-    public void SelectLeftPaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null)
+    public void SelectLeftPaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null, bool pFinish = false)
     {
         list.Clear();
 
-        StartCoroutine(C_RecupLeftPaquet(pContainerLeft, pContainerMiddle, pContainerRight, pCallback));
+        StartCoroutine(C_RecupLeftPaquet(pContainerLeft, pContainerMiddle, pContainerRight, pCallback, pFinish));
     }
 
-    public void SelectMiddlePaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null)
+    public void SelectMiddlePaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null, bool pFinish = false)
     {
         list.Clear();
 
-        StartCoroutine(C_RecupMiddlePaquet(pContainerLeft, pContainerMiddle, pContainerRight, pCallback));
+        StartCoroutine(C_RecupMiddlePaquet(pContainerLeft, pContainerMiddle, pContainerRight, pCallback, pFinish));
     }
 
-    public void SelectRightPaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null)
+    public void SelectRightPaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null, bool pFinish = false)
     {
         list.Clear();
 
-        StartCoroutine(C_RecupRightPaquet(pContainerLeft, pContainerMiddle, pContainerRight, pCallback));
+        StartCoroutine(C_RecupRightPaquet(pContainerLeft, pContainerMiddle, pContainerRight, pCallback, pFinish));
     }
 
-    protected IEnumerator C_RecupLeftPaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null)
+    protected IEnumerator C_RecupLeftPaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null, bool pFinish = false)
     {
         for (int i = 0; i < listMiddle.Count; i++)
         {
@@ -179,13 +185,13 @@ public class CardManager : MonoBehaviour {
             yield return new WaitForSeconds(timeAppear);
         }
 
-        if (pCallback == null)
-            DispatchCard(pContainerLeft, pContainerMiddle, pContainerRight);
+        if (pCallback == null || !pFinish)
+            DispatchCard(pContainerLeft, pContainerMiddle, pContainerRight, pCallback);
         else
             pCallback();
     }
 
-    protected IEnumerator C_RecupMiddlePaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null)
+    protected IEnumerator C_RecupMiddlePaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null, bool pFinish = false)
     {
         for (int i = 0; i < listLeft.Count; i++)
         {
@@ -207,13 +213,13 @@ public class CardManager : MonoBehaviour {
             listRight[i].gameObject.SetActive(false);
             yield return new WaitForSeconds(timeAppear);
         }
-        if (pCallback == null)
-            DispatchCard(pContainerLeft, pContainerMiddle, pContainerRight);
+        if (pCallback == null || !pFinish)
+            DispatchCard(pContainerLeft, pContainerMiddle, pContainerRight, pCallback);
         else
             pCallback();
     }
 
-    protected IEnumerator C_RecupRightPaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null)
+    protected IEnumerator C_RecupRightPaquet(Transform pContainerLeft, Transform pContainerMiddle, Transform pContainerRight, Action pCallback = null, bool pFinish = false)
     {
         for (int i = 0; i < listLeft.Count; i++)
         {
@@ -235,8 +241,8 @@ public class CardManager : MonoBehaviour {
             listMiddle[i].gameObject.SetActive(false);
             yield return new WaitForSeconds(timeAppear);
         }
-        if (pCallback == null)
-            DispatchCard(pContainerLeft, pContainerMiddle, pContainerRight);
+        if (pCallback == null || !pFinish)
+            DispatchCard(pContainerLeft, pContainerMiddle, pContainerRight, pCallback);
         else
             pCallback();
     }
