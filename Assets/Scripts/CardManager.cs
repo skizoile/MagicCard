@@ -35,8 +35,18 @@ public class CardManager : MonoBehaviour {
     protected List<Card> listMiddle = new List<Card>();
     protected List<Card> listRight = new List<Card>();
 
+    protected void ResetGame()
+    {
+        listCard = new Dictionary<Color, Dictionary<Sprite, List<int>>>();
+        list = new List<Card>();
+        listLeft = new List<Card>();
+        listMiddle = new List<Card>();
+        listRight = new List<Card>();
+    }
+
     public void RecupCard(Transform pContainer)
     {
+        ResetGame();
         StartCoroutine(C_RecupCard(pContainer));
     }
 
@@ -61,6 +71,8 @@ public class CardManager : MonoBehaviour {
             Card lCard = Instantiate(cardPrefab);
             lCard.transform.SetParent(pContainer, false);
             lCard.color = lColor;
+            lCard.text.color = lColor;
+            lCard.icon.color = lColor;
             lCard.icon.sprite = lSprite;
             lCard.text.text = lInt.ToString();
             list.Add(lCard);

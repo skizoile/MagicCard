@@ -47,7 +47,6 @@ public class UIManager : MonoBehaviour {
 
     protected void Start()
     {
-        DrawCard();
         ActiveSelectionCard();
     }
 
@@ -58,6 +57,7 @@ public class UIManager : MonoBehaviour {
 
     protected void ActiveSelectionCard()
     {
+        DrawCard();
         DisableResult();
         DisableChoicePaquet();
         selectionCard.SetActive(true);
@@ -147,9 +147,10 @@ public class UIManager : MonoBehaviour {
     {
         DisableChoicePaquet();
         Card lCard = cardManager.TakeGoodCard();
-        visualCard.color = lCard.color;
         visualCard.text.text = lCard.text.text;
         visualCard.icon.sprite = lCard.icon.sprite;
+        visualCard.text.color = lCard.color;
+        visualCard.icon.color = lCard.color;
 
         result.SetActive(true);
         restartButton.onClick.AddListener(Restart_OnClick);

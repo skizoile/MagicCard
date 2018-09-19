@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61c07f10bac1bb04b8436722f86e89b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0, g: 0, b: 0, a: 1}
   text: {fileID: 114996140734125558}
   icon: {fileID: 114069244469849592}
 --- !u!114 &114053120273557434

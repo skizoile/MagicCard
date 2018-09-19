@@ -9,9 +9,4 @@ public class Card : MonoBehaviour {
     public Text text;
     public Image icon;
 
-	// Use this for initialization
-	void Start () {
-        text.color = color;
-        icon.color = color;
-	}
 }
